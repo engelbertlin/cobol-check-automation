@@ -29,40 +29,40 @@ jobs:
         mkdir -p ~/.zowe
 
         cat > ~/.zowe/zowe.config.json <<EOF
-{
-  "profiles": {
-    "LearnCOBOL": {
-      "properties": {
-        "host": "$ZOS_HOST"
-      },
-      "profiles": {
-        "zosmf": {
-          "type": "zosmf",
-          "properties": {
-            "port": 10443
-          }
+        {
+          "profiles": {
+            "LearnCOBOL": {
+              "properties": {
+                "host": "$ZOS_HOST"
+              },
+              "profiles": {
+                "zosmf": {
+                  "type": "zosmf",
+                  "properties": {
+                    "port": 10443
+                  }
+                }
+              },
+              "secure": [
+                "user",
+                "password"
+              ]
+            },
+            "base": {
+              "type": "base",
+              "properties": {
+                "rejectUnauthorized": false
+              },
+              "secure": []
+            }
+          },
+          "defaults": {
+            "zosmf": "LearnCOBOL.zosmf",
+            "base": "base"
+          },
+          "plugins": []
         }
-      },
-      "secure": [
-        "user",
-        "password"
-      ]
-    },
-    "base": {
-      "type": "base",
-      "properties": {
-        "rejectUnauthorized": false
-      },
-      "secure": []
-    }
-  },
-  "defaults": {
-    "zosmf": "LearnCOBOL.zosmf",
-    "base": "base"
-  },
-  "plugins": []
-}
-EOF
+        EOF
 
         echo "Checking Zowe config:"
         cat ~/.zowe/zowe.config.json
