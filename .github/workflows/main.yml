@@ -66,6 +66,14 @@ jobs:
 
         echo "Checking Zowe config:"
         cat ~/.zowe/zowe.config.json
+
+    - name: Set Zowe credentials
+      env:
+        ZOWE_USERNAME: ${{ secrets.ZOWE_USERNAME }}
+        ZOWE_PASSWORD: ${{ secrets.ZOWE_PASSWORD }}
+      run: |
+        zowe config set LearnCOBOL.user "$ZOWE_USERNAME"
+        zowe config set LearnCOBOL.password "$ZOWE_PASSWORD"
     
     - name: Setup Mainframe Environment and Upload COBOL Check
       env:
