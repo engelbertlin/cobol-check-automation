@@ -6,16 +6,16 @@ set -e
 
 echo "Configuring Zowe..."
 
-zowe config set defaults.host "$ZOS_HOST" --responseTimeout 30
+zowe config set defaults.host "$ZOS_HOST"
 echo "host done"
 
-zowe config set defaults.port 10443 --responseTimeout 30
+zowe config set defaults.port 10443
 echo "port done"
 
-zowe config set defaults.user "$ZOWE_USERNAME" --responseTimeout 30
+zowe config set defaults.user "$ZOWE_USERNAME"
 echo "user done"
 
-zowe config set defaults.rejectUnauthorized false --responseTimeout 30
+zowe config set defaults.rejectUnauthorized false
 echo "ssl done"
 
 echo "Zowe configuration complete"
