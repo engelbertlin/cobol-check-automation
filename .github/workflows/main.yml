@@ -29,43 +29,43 @@ jobs:
         mkdir -p ~/.zowe
 
         cat > ~/.zowe/zowe.config.json <<EOF
-        {
-          "\$schema": "./zowe.schema.json",
-            "profiles": {
-              "LearnCOBOL": {
-                "properties": {
-                  "host": "$ZOS_HOST"
-                },
-                "profiles": {
-                  "zosmf": {
-                    "type": "zosmf",
-                      "properties": {
-                        "port": 10443
-                      }
-                    }
-                  },
-                  "secure": [
-                    "user",
-                    "password"
-                  ]
-                },
-                "base": {
-                  "type": "base",
-                  "properties": {
-                    "rejectUnauthorized": false
-                  },
-                  "secure": []
-                }
-              },
-              "defaults": {
-                "zosmf": "LearnCOBOL.zosmf",
-                "base": "base"
-              },
-              "plugins": []
-            }
-            EOF
+{
+  "profiles": {
+    "LearnCOBOL": {
+      "properties": {
+        "host": "$ZOS_HOST"
+      },
+      "profiles": {
+        "zosmf": {
+          "type": "zosmf",
+          "properties": {
+            "port": 10443
+          }
+        }
+      },
+      "secure": [
+        "user",
+        "password"
+      ]
+    },
+    "base": {
+      "type": "base",
+      "properties": {
+        "rejectUnauthorized": false
+      },
+      "secure": []
+    }
+  },
+  "defaults": {
+    "zosmf": "LearnCOBOL.zosmf",
+    "base": "base"
+  },
+  "plugins": []
+}
+EOF
 
-            zowe config list
+        echo "Checking Zowe config:"
+        cat ~/.zowe/zowe.config.json
     
     - name: Setup Mainframe Environment and Upload COBOL Check
       env:
