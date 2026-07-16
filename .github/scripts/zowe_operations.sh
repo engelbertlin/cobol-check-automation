@@ -2,6 +2,16 @@
 
 # zowe_operations.sh
 
+set -e
+
+echo "Configuring Zowe..."
+
+zowe config set defaults.host "$ZOS_HOST"
+zowe config set defaults.port 10443
+zowe config set defaults.user "$ZOWE_USERNAME"
+zowe config set defaults.password "$ZOWE_PASSWORD"
+zowe config set defaults.rejectUnauthorized false
+
 # Convert username to lowercase
 LOWERCASE_USERNAME=$(echo "$ZOWE_USERNAME" | tr '[:upper:]' '[:lower:]')
 
