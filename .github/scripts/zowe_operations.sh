@@ -4,17 +4,6 @@
 
 set -e
 
-echo "Configuring Zowe..."
-
-zowe config set profiles.zosmf.properties.host "$ZOS_HOST"
-zowe config set profiles.zosmf.properties.port 10443
-zowe config set profiles.zosmf.properties.rejectUnauthorized false
-
-zowe config set profiles.zosmf.secure.user "$ZOWE_USERNAME"
-zowe config set profiles.zosmf.secure.password "$ZOWE_PASSWORD"
-
-echo "Zowe configuration complete"
-
 # Convert username to lowercase
 LOWERCASE_USERNAME=$(echo "$ZOWE_USERNAME" | tr '[:upper:]' '[:lower:]')
 echo "username to lowercase done"
