@@ -6,17 +6,12 @@ set -e
 
 echo "Configuring Zowe..."
 
-zowe config set defaults.host "$ZOS_HOST"
-echo "host done"
+zowe config set profiles.zosmf.properties.host "$ZOS_HOST"
+zowe config set profiles.zosmf.properties.port 10443
+zowe config set profiles.zosmf.properties.rejectUnauthorized false
 
-zowe config set defaults.port 10443
-echo "port done"
-
-zowe config set defaults.user "$ZOWE_USERNAME"
-echo "user done"
-
-zowe config set defaults.rejectUnauthorized false
-echo "ssl done"
+zowe config set profiles.zosmf.secure.user "$ZOWE_USERNAME"
+zowe config set profiles.zosmf.secure.password "$ZOWE_PASSWORD"
 
 echo "Zowe configuration complete"
 
