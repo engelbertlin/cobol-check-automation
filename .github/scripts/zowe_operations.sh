@@ -25,9 +25,9 @@ LOWERCASE_USERNAME=$(echo "$ZOWE_USERNAME" | tr '[:upper:]' '[:lower:]')
 echo "username to lowercase done"
 
 # Check if directory exists, create if it doesn't
-if ! zowe zos-files list uss-files "/z/$LOWERCASE_USERNAME/cobolcheck" &>/dev/null; then
+if ! zowe zos-files list uss-files "/z/$LOWERCASE_USERNAME/cobolcheck" --responseTimeout 30; then
   echo "Directory does not exist. Creating it..."
-  zowe zos-files create uss-directory /z/$LOWERCASE_USERNAME/cobolcheck
+  zowe zos-files create uss-directory /z/$LOWERCASE_USERNAME/cobolcheck --responseTimeout 30
 else
   echo "Directory already exists."
 fi
