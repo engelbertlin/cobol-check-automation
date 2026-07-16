@@ -22,8 +22,6 @@ jobs:
 
     - name: Create Zowe config
       env:
-        ZOWE_USERNAME: ${{ secrets.ZOWE_USERNAME }}
-        ZOWE_PASSWORD: ${{ secrets.ZOWE_PASSWORD }}
         ZOS_HOST: ${{ secrets.ZOS_HOST }}
       run: |
         mkdir -p ~/.zowe
