@@ -31,6 +31,7 @@ if ! zowe zos-files list uss-files "/z/$LOWERCASE_USERNAME/cobolcheck" &>/dev/nu
 else
   echo "Directory already exists."
 fi
+echo "Check if directory exists done"
 
 # Upload files
 zowe zos-files upload dir-to-uss "./cobol-check" "/z/$LOWERCASE_USERNAME/cobolcheck" --recursive --binary-files "cobol-check-0.2.19.jar"
