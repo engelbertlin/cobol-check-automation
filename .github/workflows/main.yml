@@ -3,90 +3,38 @@ name: COBOL Check Automation
 on:
   push:
     branches: [ main ]
-    
+
 jobs:
   cobol-check:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v3
     
     - name: Set up Java
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@v2
       with:
         java-version: '11'
-        distribution: 'temurin'
-
+        distribution: 'adopt'
+        
     - name: Install Zowe CLI
-      run: npm install -g @zowe/cli
-
-    - name: Create Zowe config
-      env:
-        ZOS_HOST: ${{ secrets.ZOS_HOST }}
-      run: |
-        mkdir -p ~/.zowe
-
-        cat > ~/.zowe/zowe.config.json <<EOF
-        {
-          "profiles": {
-            "LearnCOBOL": {
-              "properties": {
-                "host": "$ZOS_HOST"
-              },
-              "profiles": {
-                "zosmf": {
-                  "type": "zosmf",
-                  "properties": {
-                    "port": 10443
-                  }
-                }
-              },
-              "secure": [
-                "user",
-                "password"
-              ]
-            },
-            "base": {
-              "type": "base",
-              "properties": {
-                "rejectUnauthorized": false
-              },
-              "secure": []
-            }
-          },
-          "defaults": {
-            "zosmf": "LearnCOBOL.zosmf",
-            "base": "base"
-          },
-          "plugins": []
-        }
-        EOF
-
-        echo "Checking Zowe config:"
-        cat ~/.zowe/zowe.config.json
-
-    - name: Set Zowe credentials
-      env:
-        ZOWE_USERNAME: ${{ secrets.ZOWE_USERNAME }}
-        ZOWE_PASSWORD: ${{ secrets.ZOWE_PASSWORD }}
-      run: |
-        zowe config set LearnCOBOL.user "$ZOWE_USERNAME"
-        zowe config set LearnCOBOL.password "$ZOWE_PASSWORD"
-    
+      run: npm install -g @zowe/cli@latest
+      
     - name: Setup Mainframe Environment and Upload COBOL Check
       env:
+        ZOWE_OPT_HOST: 204.90.115.200
+        ZOWE_OPT_PORT: 10443
+        ZOWE_OPT_USER: ${{ secrets.ZOWE_USERNAME }}
+        ZOWE_OPT_PASSWORD: ${{ secrets.ZOWE_PASSWORD }}
+        ZOWE_OPT_REJECT_UNAUTHORIZED: false 
         ZOWE_USERNAME: ${{ secrets.ZOWE_USERNAME }}
         ZOWE_PASSWORD: ${{ secrets.ZOWE_PASSWORD }}
-        ZOS_HOST: ${{ secrets.ZOS_HOST }}
       run: |
         chmod +x .github/scripts/zowe_operations.sh
         .github/scripts/zowe_operations.sh
-        
     - name: Run COBOL Check on Mainframe
       env:
         ZOWE_USERNAME: ${{ secrets.ZOWE_USERNAME }}
         ZOWE_PASSWORD: ${{ secrets.ZOWE_PASSWORD }}
-        ZOS_HOST: ${{ secrets.ZOS_HOST }}
       run: |
-        chmod +x .github/scripts/mainframe_operations.sh
-        .github/scripts/mainframe_operations.sh
+        sshpass -p "$ZOWE_PASSWORD" ssh -o StrictHostKeyChecking=no $ZOWE_USERNAME@204.90.115.200 'sh -s' < .github/scripts/mainframe_operations.sh
